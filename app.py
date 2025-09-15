@@ -119,7 +119,7 @@ def predict():
 
     if "file" not in request.files:
         return redirect("/")
-    
+
     file = request.files["file"]
     if file.filename == "" or not allowed_file(secure_filename(file.filename)):
         return redirect("/")
