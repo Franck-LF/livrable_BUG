@@ -69,7 +69,7 @@ def to_data_url(pil_img: Image.Image, fmt="JPEG") -> str:
     mime = "image/jpeg" if fmt.upper() == "JPEG" else f"image/{fmt.lower()}"
     return f"data:{mime};base64,{b64}"
 
-def preprocess_from_pil(pil_img: Image.Image) -> np.ndarray:
+def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     """Prépare une image PIL pour une prédiction Keras (normalisation + batch).
     Convertit en RGB, normalise en [0, 1] (float32) et ajoute l’axe batch.
 
@@ -80,6 +80,8 @@ def preprocess_from_pil(pil_img: Image.Image) -> np.ndarray:
         np.ndarray de forme (1, H, W, 3), dtype float32, valeurs ∈ [0, 1].
     """
     img = pil_img.convert("RGB")
+    # Redimensionnement pour correspondre à la taille d'entrée du modèle
+    img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
@@ -126,11 +128,15 @@ def predict():
 
     raw = file.read()
     pil_img = Image.open(io.BytesIO(raw))
-    img_array = preprocess_from_pil(pil_img)
-    # print ("********", img_array.shape)
-    # img_array = np.resize(img_array, (1, 224, 224, 3))
-    # assert img_array.shape == (1, 224, 224, 3)
-    # assert X_transformed.shape[1] == model.coef_.shape[1], f"ATTENTION !!!\n {X_transformed.shape[1]} != {classifier.coef_.shape[1]}"
+
+    input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
+    print("Input_shape", input_shape)
+
+    img_array = preprocess_from_pil(pil_img, target_size = input_shape[1:3])
+
+    assert img_array.shape[1:] == input_shape[1:], \
+        f"ATTENTION !!! La taille de l'image ne correspond pas à la taille d'entrée du modèle\
+        \n {img_array.shape[1:]} != {input_shape}"
 
     probs = model.predict(img_array, verbose=0)[0]
     cls_idx = int(np.argmax(probs))
