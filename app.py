@@ -1,6 +1,7 @@
 import os
 import io
 import base64
+import logging
 
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -10,6 +11,7 @@ import keras
 
 from PIL import Image
 
+
 # ---------------- Config ----------------
 UPLOAD_FOLDER = "static/uploads"
 ALLOWED_EXT = {"png", "jpg", "jpeg", "webp"}
@@ -17,9 +19,40 @@ CLASSES = ['desert', 'forest', 'meadow', 'mountain']
 
 app = Flask(__name__)
 
+
+# ---------------- Logger ----------------
+# Create and configure logger
+# logging.basicConfig(filename="logs/newfile.log",
+#                     format='%(asctime)s %(message)s',
+#                     filemode='w'
+
+logging.basicConfig(level = logging.INFO,
+                    format='%(asctime)s %(message)s',
+                    handlers=[logging.FileHandler("logs/newfile.log"),
+                              logging.StreamHandler()]
+                    )
+
+# Creating an object
+logger = logging.getLogger(__name__)
+
+# Setting the threshold of logger to DEBUG
+# logger.setLevel(logging.DEBUG)
+
+# Log examples
+# logger.debug("Harmless debug Message")
+# logger.info("Just an information")
+# logger.warning("Its a Warning")
+# logger.error("Did you try to divide by zero")
+# logger.critical("Internet is down")
+
+
+
 # ---------------- Model ----------------
 MODEL_PATH = "models/final_cnn.keras"
 model = keras.saving.load_model(MODEL_PATH, compile=False)
+logger.info(f"Modèle Keras chargé depuis '{MODEL_PATH}'.")
+
+
 
 # ---------------- Utils ----------------
 def allowed_file(filename: str) -> bool:
@@ -81,6 +114,7 @@ def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     """
     img = pil_img.convert("RGB")
     # Redimensionnement pour correspondre à la taille d'entrée du modèle
+    logger.info(f"taille initiale de l'image : {img.size}")
     img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
@@ -124,15 +158,29 @@ def predict():
 
     file = request.files["file"]
     if file.filename == "" or not allowed_file(secure_filename(file.filename)):
+        if file.filename == "":
+            logger.warning("Aucun fichier sélectionné pour l'upload.")
+        else:
+            logger.warning(f"Extension de fichier non autorisée: '{file.filename}'")
         return redirect("/")
 
+    logger.info(f"Fichier choisi : {file.filename}")
     raw = file.read()
-    pil_img = Image.open(io.BytesIO(raw))
+
+    try:
+        pil_img = Image.open(io.BytesIO(raw))
+    except: 
+        logger.error(f"Erreur lors de l'ouverture de l'image : '{file.filename}'")
+        return redirect("/")
 
     input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
     print("Input_shape", input_shape)
 
     img_array = preprocess_from_pil(pil_img, target_size = input_shape[1:3])
+
+    if img_array.shape[1:] != input_shape[1:]:
+        logger.error(f"Après traitement de l'image, la taille de l'image incorrecte: {img_array.shape[1:]} au lieu de {input_shape[1:]}")
+        return redirect("/")
 
     assert img_array.shape[1:] == input_shape[1:], \
         f"ATTENTION !!! La taille de l'image ne correspond pas à la taille d'entrée du modèle\
