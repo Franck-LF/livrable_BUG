@@ -12,18 +12,17 @@ import keras
 
 from PIL import Image
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # sys.path.append(PATH)
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # from app import app as flask_app
 # from app import to_data_url
 
 
-image_folder = "image_to_test/"
-MODEL_PATH = "..\\models\\final_cnn.keras"
+# image_folder = "image_to_test/"
+# MODEL_PATH = "..\\models\\final_cnn.keras"
 
 
 
@@ -67,8 +66,10 @@ MODEL_PATH = "..\\models\\final_cnn.keras"
 def test_load_image():
     print("\n****** Test Load Image")
     # print('PATH:', PATH)
-    print("PATH:", os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg"))
-    print('Image folder:', image_folder)
+    PATH = os.path.join(os.path.dirname(__file__), "..") + "\\images_to_test\\desert_96.jpg"
+    print("PATH:", PATH)
+    # print('Image folder:', image_folder)
+
     try:
         img_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg")
         _ = Image.open(img_path).convert("RGB")
