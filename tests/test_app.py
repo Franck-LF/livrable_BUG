@@ -57,13 +57,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # ------------------------------------------
 
 # S'assurer que l'on peut charger le modèle Kéras
-# def test_load_model():
-#     print("\n****** Test Load Model")
-#     try:
-#         _ = keras.saving.load_model(MODEL_PATH, compile=False)
-#         assert True
-#     except:
-#         assert False, f"Impossible de charger le modèle Kéras depuis '{MODEL_PATH}'."
+def test_load_model():
+    model_path = "models/final_cnn.keras"
+    print("\n****** Test Load Model")
+    try:
+        _ = keras.saving.load_model(model_path, compile=False)
+        assert True
+    except:
+        assert False, f"Impossible de charger le modèle Kéras depuis {model_path}."
 
 
 # S'assurer que l'image peut être chargée
