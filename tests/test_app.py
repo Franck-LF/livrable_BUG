@@ -69,15 +69,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # S'assurer que l'image peut être chargée
 def test_load_image():
     print("\n****** Test Load Image")
-    # print('PATH:', PATH)
-    # PATH = os.path.join(os.path.dirname(__file__), "..") + "\\images_to_test\\desert_96.jpg"
-    # print("PATH:", PATH)
-    # print('Image folder:', image_folder)
-    # img_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg")
-    # img_path = BASE_DIR + "images_to_test/meadow_89.jpg"
+
+    # Local (Windows)
     img_path = "C:\\Users\\Utilisateur\\Documents\\Livrable_BUG\\images_to_test\\meadow_89.jpg"
     img_path = "C:/Users/Utilisateur/Documents/Livrable_BUG/images_to_test/meadow_89.jpg"
-    img_path = "images_to_test/meadow_89.jpg"
+    # Github Action (Linux)
+    img_path = "images_to_test/desert_96.jpg"
+    # tensorflow==2.20.0
 
     try:
         _ = Image.open(img_path).convert("RGB")

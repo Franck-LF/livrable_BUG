@@ -24,7 +24,7 @@ jobs:
 
       # Étape pour exécuter les tests
       - name: Run tests
-        run: pytest -vv
+        run: TENSORFLOW_BACKEND=torch pytest -vv
         env:
           HOST_MONGODB: ${{ secrets.HOST_MONGODB }}
           MONGO_DB_APPNAME: ${{ secrets.MONGO_DB_APPNAME }}
