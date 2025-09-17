@@ -27,9 +27,13 @@ app = Flask(__name__)
 #                     format='%(asctime)s %(message)s',
 #                     filemode='w'
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+logs_dir = os.path.join(BASE_DIR, "logs")
+
 logging.basicConfig(level = logging.INFO,
                     format='%(asctime)s %(message)s',
-                    handlers=[logging.FileHandler("logs/newfile.log"),
+                    handlers=[logging.FileHandler("logs\\newfile.log"),
+                    # handlers=[logging.FileHandler(os.path.join(logs_dir, app.log")),
                               logging.StreamHandler()]
                     )
 

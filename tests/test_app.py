@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # from app import to_data_url
 
 
-image_folder = "image_to_test/"
+image_folder = "image_to_test\\"
 MODEL_PATH = "../models/final_cnn.keras"
 
 
