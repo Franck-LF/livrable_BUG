@@ -13,7 +13,7 @@ import keras
 from PIL import Image
 
 
-PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # sys.path.append(PATH)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # from app import to_data_url
 
 
-image_folder = "image_to_test\\"
+image_folder = "image_to_test/"
 MODEL_PATH = "..\\models\\final_cnn.keras"
 
 
@@ -66,10 +66,11 @@ MODEL_PATH = "..\\models\\final_cnn.keras"
 # S'assurer que l'image peut être chargée
 def test_load_image():
     print("\n****** Test Load Image")
-    print('PATH:', PATH)
+    # print('PATH:', PATH)
+    print("PATH:", os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg"))
     print('Image folder:', image_folder)
     try:
-        img_path = os.path.join(PATH + "\\images_to_test\\", "desert_96.jpg")
+        img_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg")
         _ = Image.open(img_path).convert("RGB")
         print("Image chargée à partir de :", img_path)
         assert True
