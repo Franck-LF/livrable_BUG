@@ -18,7 +18,7 @@ PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from app import app as flask_app
+# from app import app as flask_app
 # from app import to_data_url
 
 
@@ -37,11 +37,11 @@ MODEL_PATH = "../models/final_cnn.keras"
 
 
 
-@pytest.fixture
-def client():
-    flask_app.config["TESTING"] = True
-    with flask_app.test_client() as client:
-        yield client
+# @pytest.fixture
+# def client():
+#     flask_app.config["TESTING"] = True
+#     with flask_app.test_client() as client:
+#         yield client
 
 
 
@@ -55,7 +55,7 @@ def client():
 
 # S'assurer que l'on peut charger le modèle Kéras
 def test_load_model():
-    print("Test Load Model")
+    print("\n****** Test Load Model")
     try:
         _ = keras.saving.load_model(MODEL_PATH, compile=False)
         assert True
@@ -65,9 +65,11 @@ def test_load_model():
 
 # S'assurer que l'image peut être chargée
 def test_load_image():
-    print("Test Load Image")
+    print("\n****** Test Load Image")
+    print('PATH:', PATH)
+    print('Image folder:', image_folder)
     try:
-        img_path = os.path.join(PATH + "images_to_test/", "desert_96.jpg")
+        img_path = os.path.join(PATH + "\\images_to_test\\", "desert_96.jpg")
         _ = Image.open(img_path).convert("RGB")
         assert True
     except:
@@ -112,6 +114,6 @@ def test_load_image():
 
 if __name__ == "__main__":
     print("START MAIN")
-    test_load_model()
+    # test_load_model()
     test_load_image()
     # test_image_input_model()
