@@ -67,7 +67,7 @@ def test_load_model():
 def test_load_image():
     print("Test Load Image")
     try:
-        img_path = os.path.join("C:/Users/Utilisateur/Documents/Livrable_BUG/images_to_test/", "desert_96.jpg")
+        img_path = os.path.join(PATH + "images_to_test/", "desert_96.jpg")
         _ = Image.open(img_path).convert("RGB")
         assert True
     except:

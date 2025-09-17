@@ -29,7 +29,7 @@ app = Flask(__name__)
 
 logging.basicConfig(level = logging.INFO,
                     format='%(asctime)s %(message)s',
-                    handlers=[logging.FileHandler("C:/Users/Utilisateur/Documents/Livrable_BUG/logs/newfile.log"),
+                    handlers=[logging.FileHandler("logs/newfile.log"),
                               logging.StreamHandler()]
                     )
 
