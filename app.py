@@ -174,11 +174,12 @@ def predict():
         return redirect("/")
 
     logger.info(f"Fichier choisi : {file.filename}")
+    print(type(file))
     raw = file.read()
 
     try:
         pil_img = Image.open(io.BytesIO(raw))
-    except: 
+    except:
         logger.error(f"Erreur lors de l'ouverture de l'image : '{file.filename}'")
         return redirect("/")
 

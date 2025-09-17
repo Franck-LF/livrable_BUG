@@ -30,24 +30,12 @@ from app import app as flask_app
 
 
 
-# -----------------------------------
-# Load vectorizer and classifier
-# -----------------------------------
-
-# pipe = load('best_model_joblib.pkl')
-# vectorizer = pipe.named_steps['tfidf']
-# classifier = pipe.named_steps['clf']
-
-
 
 # @pytest.fixture
 # def client():
 #     flask_app.config["TESTING"] = True
 #     with flask_app.test_client() as client:
 #         yield client
-
-
-
 
 
 # ------------------------------------------
@@ -89,14 +77,23 @@ def test_load_image():
 
 # Assurez vous que les dimensions des tableaux numpy est compatible avec 
 # la forme d'entrée du modèle Kéras
-# def test_image_input_model():
-    # print("Test Image Input Model")
-#     img_path = os.path.join("C:/Users/Utilisateur/Documents/Livrable_BUG/images_to_test/", "desert_96.jpg")
-#     pil_img = Image.open(img_path).convert("RGB")
-#     model = keras.saving.load_model(MODEL_PATH, compile=False)
-#     print("TF-IDF output:", X_transformed.shape)
-#     print("Classifier input:", classifier.coef_.shape[1])
-#     assert X_transformed.shape[1] == classifier.coef_.shape[1], f"ATTENTION !!!\n {X_transformed.shape[1]} != {classifier.coef_.shape[1]}"
+def test_image_input_model():
+    print("\n****** Test Image Input Model")
+    
+    # img_path = os.path.join("C:/Users/Utilisateur/Documents/Livrable_BUG/images_to_test/", "desert_96.jpg")
+    img_path = "images_to_test/desert_96.jpg"
+    img = Image.open(img_path).convert("RGB")
+    model_path = "models/final_cnn.keras"
+    model = keras.saving.load_model(model_path, compile=False)
+    input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
+    img_array = flask_app.preprocess_from_pil(img, target_size = input_shape[1:3])
+
+    print("Img_array shape:", img_array.shape)
+    print("Model input:", input_shape)
+
+    assert img_array.shape[1:] == input_shape[1:], \
+        f"ATTENTION !!! La taille de l'image ne correspond pas à la taille d'entrée du modèle\
+        \n {img_array.shape[1:]} != {input_shape}"
 
 
 # Assurez-vous que la probabilité de la prédiction de la classe prédite 
