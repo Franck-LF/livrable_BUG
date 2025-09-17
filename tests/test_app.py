@@ -14,6 +14,10 @@ from PIL import Image
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+# print(sys.path)
+
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # sys.path.append(PATH)
 
@@ -66,16 +70,21 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 def test_load_image():
     print("\n****** Test Load Image")
     # print('PATH:', PATH)
-    PATH = os.path.join(os.path.dirname(__file__), "..") + "\\images_to_test\\desert_96.jpg"
-    print("PATH:", PATH)
+    # PATH = os.path.join(os.path.dirname(__file__), "..") + "\\images_to_test\\desert_96.jpg"
+    # print("PATH:", PATH)
     # print('Image folder:', image_folder)
+    # img_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg")
+    # img_path = BASE_DIR + "images_to_test/meadow_89.jpg"
+    img_path = "C:\\Users\\Utilisateur\\Documents\\Livrable_BUG\\images_to_test\\meadow_89.jpg"
+    img_path = "C:/Users/Utilisateur/Documents/Livrable_BUG/images_to_test/meadow_89.jpg"
+    img_path = "images_to_test/meadow_89.jpg"
 
     try:
-        img_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "\\images_to_test\\", "desert_96.jpg")
         _ = Image.open(img_path).convert("RGB")
-        print("Image chargée à partir de :", img_path)
+        print(f"Image chargée à partir de {img_path}")
         assert True
     except:
+        print(img_path)
         assert False, f"Impossible de charger l'image depuis {img_path}."
 
 
