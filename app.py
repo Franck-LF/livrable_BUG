@@ -1,3 +1,4 @@
+
 import os
 import io
 import base64
@@ -28,7 +29,7 @@ app = Flask(__name__)
 
 logging.basicConfig(level = logging.INFO,
                     format='%(asctime)s %(message)s',
-                    handlers=[logging.FileHandler("logs/newfile.log"),
+                    handlers=[logging.FileHandler("C:/Users/Utilisateur/Documents/Livrable_BUG/logs/newfile.log"),
                               logging.StreamHandler()]
                     )
 
@@ -49,8 +50,12 @@ logger = logging.getLogger(__name__)
 
 # ---------------- Model ----------------
 MODEL_PATH = "models/final_cnn.keras"
-model = keras.saving.load_model(MODEL_PATH, compile=False)
-logger.info(f"Modèle Keras chargé depuis '{MODEL_PATH}'.")
+
+try:
+    model = keras.saving.load_model(MODEL_PATH, compile=False)
+    logger.info(f"Modele Keras charge depuis '{MODEL_PATH}'.")
+except:
+    logger.critical(f"Impossible de charger le modèle Keras depuis '{MODEL_PATH}'.")
 
 
 
@@ -117,7 +122,7 @@ def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     logger.info(f"taille initiale de l'image : {img.size}")
     img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
+    img_array = np.expand_dims(img_array, axis = 0)
     return img_array
 
 # ---------------- Routes ----------------
@@ -132,15 +137,15 @@ def index():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    """Traite l’upload, exécute la prédiction et affiche le résultat.
+    """Traite l'upload, exécute la prédiction et affiche le résultat.
 
     Attendu: une requête `multipart/form-data` avec le champ `file`.
     Étapes:
-      1) Validation de présence et d’extension du fichier.
+      1) Validation de présence et d'extension du fichier.
       2) Lecture du contenu en mémoire et ouverture en PIL.
       3) Prétraitement -> tenseur (1, H, W, 3).
       4) Prédiction Keras -> probas, top-1 (label, confiance).
-      5) Encodage de l’image en Data URL et rendu du template résultat.
+      5) Encodage de l'image en Data URL et rendu du template résultat.
 
     Redirects:
         - Redirige vers "/" si le fichier est manquant ou invalide.
