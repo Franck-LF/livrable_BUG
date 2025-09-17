@@ -21,8 +21,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # sys.path.append(PATH)
 
-from app import app as flask_app
-# from app import to_data_url
+# from app import app as flask_app
+from app import preprocess_from_pil
 
 
 # image_folder = "image_to_test/"
