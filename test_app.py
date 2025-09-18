@@ -7,6 +7,7 @@ import pytest
 import numpy as np
 import keras
 from PIL import Image
+from dotenv import load_dotenv
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -17,7 +18,7 @@ PATH = ""
 if test_local:
     PATH =  "C:/Users/Utilisateur/Documents/Livrable_BUG/"
 
-
+load_dotenv()
 
 
 # ------------------------------------------
