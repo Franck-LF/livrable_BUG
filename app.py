@@ -3,52 +3,62 @@ import os
 import io
 import base64
 import logging
-
+import numpy as np
+import keras
+from PIL import Image
+from dotenv import load_dotenv
+from logging.handlers import SMTPHandler
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-import numpy as np
-import keras
-
-from PIL import Image
 
 
 # ---------------- Config ----------------
 UPLOAD_FOLDER = "static/uploads"
 ALLOWED_EXT = {"png", "jpg", "jpeg", "webp"}
 CLASSES = ['desert', 'forest', 'meadow', 'mountain']
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# logs_dir = os.path.join(BASE_DIR, "logs")
+
+
+
+
+load_dotenv()
+
+# print(os.getenv('GMAIL_USER'), os.getenv('PASSWORD'))
 
 app = Flask(__name__)
 
 
-# ---------------- Logger ----------------
-# Create and configure logger
-# logging.basicConfig(filename="logs/newfile.log",
-#                     format='%(asctime)s %(message)s',
-#                     filemode='w'
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-logs_dir = os.path.join(BASE_DIR, "logs")
+# ---------------- Logger ----------------
 
 logging.basicConfig(level = logging.INFO,
-                    format='%(asctime)s %(message)s',
-                    handlers=[logging.FileHandler("logs\\newfile.log"),
-                    # handlers=[logging.FileHandler(os.path.join(logs_dir, app.log")),
-                              logging.StreamHandler()]
+                    format = '%(asctime)s %(levelname)s | %(module)s >>> %(message)s',
+                    handlers = [logging.FileHandler("logs\\newfile.log"),
+                                logging.StreamHandler()]
                     )
 
 # Creating an object
 logger = logging.getLogger(__name__)
 
-# Setting the threshold of logger to DEBUG
-# logger.setLevel(logging.DEBUG)
 
-# Log examples
-# logger.debug("Harmless debug Message")
-# logger.info("Just an information")
-# logger.warning("Its a Warning")
-# logger.error("Did you try to divide by zero")
-# logger.critical("Internet is down")
+
+# --------------- Alerting --------------
+
+# Configuration de l'envoi d'email
+mail_handler = SMTPHandler(
+    mailhost=("smtp.gmail.com", 587),
+    fromaddr="f7lefur@gmail.com",
+    toaddrs=["f7lefur@gmail.com"],
+    subject="Alerte : une erreur est survenue",
+    credentials=(os.getenv('GMAIL_USER'), os.getenv('PASSWORD')),
+    secure=()
+)
+
+logger.setLevel(logging.ERROR)  # Seuls les logs >= ERROR seront envoyés
+
+logger.addHandler(mail_handler)
 
 
 
@@ -127,6 +137,7 @@ def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
     img_array = np.expand_dims(img_array, axis = 0)
+    logger.error(f"Ouverture de l'image", exc_info=True)
     return img_array
 
 # ---------------- Routes ----------------
@@ -180,7 +191,7 @@ def predict():
     try:
         pil_img = Image.open(io.BytesIO(raw))
     except:
-        logger.error(f"Erreur lors de l'ouverture de l'image : '{file.filename}'")
+        logger.error(f"Erreur lors de l'ouverture de l'image : '{file.filename}'", exc_info=True)
         return redirect("/")
 
     input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
@@ -189,7 +200,7 @@ def predict():
     img_array = preprocess_from_pil(pil_img, target_size = input_shape[1:3])
 
     if img_array.shape[1:] != input_shape[1:]:
-        logger.error(f"Après traitement de l'image, la taille de l'image incorrecte: {img_array.shape[1:]} au lieu de {input_shape[1:]}")
+        logger.error(f"Après traitement de l'image, la taille de l'image incorrecte: {img_array.shape[1:]} au lieu de {input_shape[1:]}", exc_info=True)
         return redirect("/")
 
     assert img_array.shape[1:] == input_shape[1:], \
