@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from logging.handlers import SMTPHandler
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
-
+import flask_monitoringdashboard as dashboard
 
 
 # ---------------- Config ----------------
@@ -29,6 +29,9 @@ load_dotenv()
 
 app = Flask(__name__)
 
+dashboard.config.init_from(file='config.cfg')
+# Pour relier le dashboard à cette app Flask
+dashboard.bind(app)
 
 
 # ---------------- Logger ----------------
