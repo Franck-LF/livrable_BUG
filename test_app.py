@@ -3,20 +3,15 @@ import os
 import io
 import sys
 import base64
-
-# from joblib import load
 import pytest
-
 import numpy as np
 import keras
-
 from PIL import Image
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# from app import app as flask_app
 from app import preprocess_from_pil
-##
+
 test_local = False
 PATH = ""
 if test_local:
