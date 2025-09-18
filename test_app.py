@@ -1,0 +1,103 @@
+
+import os
+import io
+import sys
+import base64
+
+# from joblib import load
+import pytest
+
+import numpy as np
+import keras
+
+from PIL import Image
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# from app import app as flask_app
+from app import preprocess_from_pil
+
+test_local = False
+PATH = ""
+if test_local:
+    PATH =  "C:/Users/Utilisateur/Documents/Livrable_BUG/"
+
+
+
+
+# ------------------------------------------
+#
+#           Mes tests
+#
+# ------------------------------------------
+
+# S'assurer que l'on peut charger le modèle Kéras
+def test_load_model():
+    model_path = PATH + "models/final_cnn.keras"
+    print("\n****** Test Load Model")
+    try:
+        _ = keras.saving.load_model(model_path, compile=False)
+        assert True
+    except:
+        assert False, f"Impossible de charger le modèle Kéras depuis {model_path}."
+
+
+# S'assurer que l'image peut être chargée
+def test_load_image():
+    print("\n****** Test Load Image")
+    img_path = PATH + "images_to_test/desert_96.jpg"
+
+    try:
+        _ = Image.open(img_path).convert("RGB")
+        print(f"Image chargée à partir de {img_path}")
+        assert True
+    except:
+        print(img_path)
+        assert False, f"Impossible de charger l'image depuis {img_path}."
+
+
+# Assurez vous que les dimensions des tableaux numpy est compatible avec 
+# la forme d'entrée du modèle Kéras
+def test_image_input_model():
+    print("\n****** Test Image Input Model")
+
+    img_path = PATH + "images_to_test/meadow_89.jpg"
+    model_path = PATH + "models/final_cnn.keras"
+
+    img = Image.open(img_path).convert("RGB")
+    model = keras.saving.load_model(model_path, compile=False)
+    input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
+    img_array = preprocess_from_pil(img, target_size = input_shape[1:3])
+
+    print("Img_array shape:", img_array.shape)
+    print("Model input:", input_shape)
+
+    assert img_array.shape[1:] == input_shape[1:], \
+        f"ATTENTION !!! La taille de l'image ne correspond pas à la taille d'entrée du modèle\
+        \n {img_array.shape[1:]} != {input_shape}"
+
+
+# Assurez-vous que la probabilité de la prédiction de la classe prédite 
+# est comprise entre 0 et 1 (en sortie de predict_proba() du classifieur)
+def test_probability():
+    print("\n****** Test Predict Probability")
+    img_path = PATH + "images_to_test/meadow_89.jpg"
+    model_path = PATH + "models/final_cnn.keras"
+
+    img = Image.open(img_path).convert("RGB")
+    model = keras.saving.load_model(model_path, compile=False)
+    input_shape = model.get_config()["layers"][0]["config"]["batch_shape"]
+    img_array = preprocess_from_pil(img, target_size = input_shape[1:3])
+
+    probas = model.predict(img_array, verbose=0)
+    print("proba:", probas)
+    assert all([p >= 0 and p <= 1 for p in item] for item in probas), "Une probabilité n'est pas comprise entre 0 et 1"
+
+
+
+if __name__ == "__main__":
+    print("START MAIN")
+    test_load_model()
+    test_load_image()
+    test_image_input_model()
+    test_probability()
