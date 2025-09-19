@@ -31,4 +31,4 @@ handler = logging.Handler()
 handler.emit = discord_emit  # on écrase la méthode au profit de notre fonction
 logger.addHandler(handler)
 
-logger.critical("URGENT ! éteignez la VMC !!!")
+logger.critical("URGENT !!! éteignez la VMC !!!")
