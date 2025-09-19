@@ -29,10 +29,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
-
+# C:\Users\Utilisateur\Documents\Livrable_BUG
 
 # ---------------- Dashboard --------------
-dashboard.config.init_from(file=BASE_DIR + 'config.cfg')
+print(BASE_DIR + '\\config.cfg')
+dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
 # Pour relier le dashboard à cette app Flask
 dashboard.bind(app)
 
