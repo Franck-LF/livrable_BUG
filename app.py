@@ -33,9 +33,10 @@ app = Flask(__name__)
 
 # ---------------- Dashboard --------------
 print("CONFIG FILE:", BASE_DIR + '\\config.cfg')
-dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
+# dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
+# dashboard.config.init_from(file='dashboard_config.cfg')
 # Pour relier le dashboard à cette app Flask
-dashboard.bind(app)
+# dashboard.bind(app)
 
 
 
@@ -160,6 +161,8 @@ def index():
     return render_template("upload.html")
 
 
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
     """Traite l'upload, exécute la prédiction et affiche le résultat.
@@ -227,15 +230,31 @@ def predict():
     return render_template("result.html", image_data_url=image_data_url, predicted_label=label, confidence=conf, classes=CLASSES)
 
 
-@app.route("/feedback", methods=["GET"])
+@app.route("/feedback", methods=["POST"])
 def feedback_ok():
     """Affiche la page de confirmation de feedback (placeholder).
 
     Returns:
         Réponse HTML rendant le template "feedback_ok.html".
     """
-    return render_template("feedback_ok.html")
+    name = request.form.get("name")
+    print("Variable récupérée :", name)
+    confidence = request.form.get("confidence")
+    print("Variable récupérée :", confidence)
+    predicted_label = request.form.get("predicted_label")
+    print("Variable récupérée :", predicted_label)
+    feedback = request.form.get("category")
+    print("Feedback :", feedback)
+    image_data_url = request.form.get("image_data_url")
+    return render_template("feedback_ok.html", 
+                           predicted_label = predicted_label, 
+                           confidence = confidence,
+                           feedback = feedback,
+                           image_data_url = image_data_url)
 
+
+dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
+dashboard.bind(app)
 
 
 
