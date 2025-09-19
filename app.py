@@ -29,9 +29,13 @@ load_dotenv()
 
 app = Flask(__name__)
 
-dashboard.config.init_from(file='config.cfg')
+
+
+# ---------------- Dashboard --------------
+dashboard.config.init_from(file=BASE_DIR + 'config.cfg')
 # Pour relier le dashboard à cette app Flask
 dashboard.bind(app)
+
 
 
 # ---------------- Logger ----------------
@@ -140,7 +144,6 @@ def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     img = img.resize(target_size)
     img_array = np.asarray(img, dtype=np.float32) / 255.0
     img_array = np.expand_dims(img_array, axis = 0)
-    logger.error(f"Ouverture de l'image", exc_info=True)
     return img_array
 
 # ---------------- Routes ----------------
