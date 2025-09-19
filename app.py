@@ -18,7 +18,6 @@ UPLOAD_FOLDER = "static/uploads"
 ALLOWED_EXT = {"png", "jpg", "jpeg", "webp"}
 CLASSES = ['desert', 'forest', 'meadow', 'mountain']
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# logs_dir = os.path.join(BASE_DIR, "logs")
 
 
 
@@ -29,10 +28,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# C:\Users\Utilisateur\Documents\Livrable_BUG
+
+
 
 # ---------------- Dashboard --------------
-print(BASE_DIR + '\\config.cfg')
+print("CONFIG FILE:", BASE_DIR + '\\config.cfg')
 dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
 # Pour relier le dashboard à cette app Flask
 dashboard.bind(app)
@@ -147,7 +147,9 @@ def preprocess_from_pil(pil_img: Image.Image, target_size:tuple) -> np.ndarray:
     img_array = np.expand_dims(img_array, axis = 0)
     return img_array
 
+
 # ---------------- Routes ----------------
+
 @app.route("/", methods=["GET"])
 def index():
     """Affiche la page d’upload.
@@ -156,6 +158,7 @@ def index():
         Réponse HTML rendant le template "upload.html".
     """
     return render_template("upload.html")
+
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -223,6 +226,7 @@ def predict():
 
     return render_template("result.html", image_data_url=image_data_url, predicted_label=label, confidence=conf, classes=CLASSES)
 
+
 @app.route("/feedback", methods=["GET"])
 def feedback_ok():
     """Affiche la page de confirmation de feedback (placeholder).
@@ -231,6 +235,9 @@ def feedback_ok():
         Réponse HTML rendant le template "feedback_ok.html".
     """
     return render_template("feedback_ok.html")
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
