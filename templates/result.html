@@ -16,30 +16,25 @@
     <h2>Classe prédite : {{ predicted_label }}</h2>
     <p>Confiance : {{ '%.3f'|format(confidence) }}</p>
 
-    <!-- <div>
-      {% for c in classes %}
-        <button class="pill">{{ c }}</button>
-      {% endfor %}
-    </div> -->
-
     <form method="post" action="/feedback">
       <p>Selon vous, quelle est la bonne catégorie ?</p>
       <input type="radio" id="desert" name="category" value="desert">
-      <label for="desert">Desert</label><br>
+      <label for="desert">Desert</label>
       <input type="radio" id="forest" name="category" value="forest">
-      <label for="forest">Forest</label><br>
+      <label for="forest">Forest</label>
       <input type="radio" id="meadow" name="category" value="meadow">
       <label for="medow">Meadow</label>
-      <br>
-      <input type="text" name="name" required>
+      <input type="radio" id="mountain" name="category" value="mountain">
+      <label for="mountain">Mountain</label>
+      <br
       <input type="text" name="ma_variable_a_recuperer" value="{{ ma_variable_sur_la_page }}" hidden>
       <input type="test" name="predicted_label" value="{{ predicted_label }}" hidden>
       <input type="test" name="confidence" value="{{ confidence }}" hidden>
       <input type="test" name="image_data_url" value="{{ image_data_url }}" hidden>
-      <button type="submit">Envoyer</button>
+      <button type="submit" class = "btn">Envoyer un feedback</button>
     </form>
 
-    <p><a class="btn" href="/feedback">Envoyer un feedback (mock)</a></p>
+    <!-- <p><a class="btn" href="/feedback">Envoyer un feedback (mock)</a></p> -->
     <p><a href="/">↩︎ Revenir</a></p>
   </body>
 </html>
