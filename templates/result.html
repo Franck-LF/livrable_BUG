@@ -16,23 +16,26 @@
     <h2>Classe prédite : {{ predicted_label }}</h2>
     <p>Confiance : {{ '%.3f'|format(confidence) }}</p>
 
-    <div>
+    <!-- <div>
       {% for c in classes %}
         <button class="pill">{{ c }}</button>
       {% endfor %}
-    </div>
+    </div> -->
 
-    <p>
-    <a class = "btn" href="/feedback">Desert</a>
-    <a class = "btn" href="/feedback">Forest</a>
-    <a class = "btn" href="/feedback">Meadow</a>
-    <a class = "btn" href="/feedback">Mountain</a>
-    </p>
-
-    <form method="post" action="/result">
-      <label>Votre prénom :</label>
+    <form method="post" action="/feedback">
+      <p>Selon vous, quelle est la bonne catégorie ?</p>
+      <input type="radio" id="desert" name="category" value="desert">
+      <label for="desert">Desert</label><br>
+      <input type="radio" id="forest" name="category" value="forest">
+      <label for="forest">Forest</label><br>
+      <input type="radio" id="meadow" name="category" value="meadow">
+      <label for="medow">Meadow</label>
+      <br>
       <input type="text" name="name" required>
-      <input type="text" name="ma_variable_a_recuperer" value="{{ ma_variable_sur_la_page }}">
+      <input type="text" name="ma_variable_a_recuperer" value="{{ ma_variable_sur_la_page }}" hidden>
+      <input type="test" name="predicted_label" value="{{ predicted_label }}" hidden>
+      <input type="test" name="confidence" value="{{ confidence }}" hidden>
+      <input type="test" name="image_data_url" value="{{ image_data_url }}" hidden>
       <button type="submit">Envoyer</button>
     </form>
 

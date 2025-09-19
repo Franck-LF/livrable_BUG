@@ -5,12 +5,19 @@
     <title>Feedback</title>
     <style>
       body { font-family: system-ui, sans-serif; margin: 2rem; }
-      .ok { padding: 1rem; border: 1px solid #6c6; background: #eaffea; border-radius: 10px; max-width: 520px; }
+      img { max-width: 420px; border-radius: 10px; display: block; margin-bottom: 1rem; }
+      .ok { padding: 1rem; border: 1px solid rgb(17, 18, 18); background: #a1a3f0; border-radius: 10px; max-width: 520px; }
     </style>
   </head>
   <body>
     <div class="ok">
       <h2>Feedback envoyé ✅</h2>
+      <p>Image :</p>
+      <img src="{{ image_data_url }}" alt="submitted image" />
+      <p>Prédiction : {{ predicted_label }}</p>
+      <p>Confiance : {{ confidence }}</p>
+      <p>Feedback :{{ feedback }}</p>
+      <p>Voici ma variable : {{ name }}</p>
     </div>
     <p><a href="/">↩︎ Revenir</a></p>
   </body>
