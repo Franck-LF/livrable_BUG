@@ -6,7 +6,7 @@
     <style>
       body { font-family: system-ui, sans-serif; margin: 2rem; }
       img { max-width: 420px; border-radius: 10px; display: block; margin-bottom: 1rem; }
-      .pill { padding:.5rem 1rem; margin-right:.5rem; border-radius:999px; border:1px solid #aaa; background:#f5f5f5; opacity:.6; cursor:not-allowed; }
+      .pill { padding:.5rem 1rem; margin-right:.5rem; border-radius:999px; border:1px solid #aaa; background:#f5f5f5; opacity:.6; }
       .btn { padding:.6rem 1rem; border-radius:8px; border:1px solid #222; background:#fff; text-decoration:none; }
     </style>
   </head>
@@ -18,9 +18,23 @@
 
     <div>
       {% for c in classes %}
-        <button class="pill" disabled>{{ c }}</button>
+        <button class="pill">{{ c }}</button>
       {% endfor %}
     </div>
+
+    <p>
+    <a class = "btn" href="/feedback">Desert</a>
+    <a class = "btn" href="/feedback">Forest</a>
+    <a class = "btn" href="/feedback">Meadow</a>
+    <a class = "btn" href="/feedback">Mountain</a>
+    </p>
+
+    <form method="post" action="/result">
+      <label>Votre prénom :</label>
+      <input type="text" name="name" required>
+      <input type="text" name="ma_variable_a_recuperer" value="{{ ma_variable_sur_la_page }}">
+      <button type="submit">Envoyer</button>
+    </form>
 
     <p><a class="btn" href="/feedback">Envoyer un feedback (mock)</a></p>
     <p><a href="/">↩︎ Revenir</a></p>
