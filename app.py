@@ -11,6 +11,8 @@ from logging.handlers import SMTPHandler
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import flask_monitoringdashboard as dashboard
+import pymongo
+
 
 
 # ---------------- Config ----------------
@@ -26,6 +28,17 @@ load_dotenv()
 
 # print(os.getenv('GMAIL_USER'), os.getenv('PASSWORD'))
 
+
+# ---------------- Data Base --------------
+
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+mydb = client["satellite"]
+col_feedbacks = mydb["feedback"]
+
+
+
+
+# ---------------- Flask App --------------
 app = Flask(__name__)
 
 
@@ -33,10 +46,6 @@ app = Flask(__name__)
 
 # ---------------- Dashboard --------------
 print("CONFIG FILE:", BASE_DIR + '\\config.cfg')
-# dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
-# dashboard.config.init_from(file='dashboard_config.cfg')
-# Pour relier le dashboard à cette app Flask
-# dashboard.bind(app)
 
 
 
@@ -237,15 +246,28 @@ def feedback_ok():
     Returns:
         Réponse HTML rendant le template "feedback_ok.html".
     """
-    name = request.form.get("name")
-    print("Variable récupérée :", name)
-    confidence = request.form.get("confidence")
-    print("Variable récupérée :", confidence)
+    image_data_url = request.form.get("image_data_url")
+    print("Image soumise (Data URL) :", image_data_url[:30] + "...")
     predicted_label = request.form.get("predicted_label")
-    print("Variable récupérée :", predicted_label)
+    print("Catégorie prédite :", predicted_label)
+    confidence = request.form.get("confidence")
+    print("Score de confiance :", confidence)
     feedback = request.form.get("category")
     print("Feedback :", feedback)
-    image_data_url = request.form.get("image_data_url")
+
+    # Enregistrement dans la base de données
+    my_dict = {
+        'image' : image_data_url,
+        'predition' : predicted_label,
+        'score' : confidence,
+        'feedback' : feedback
+    }
+
+    try:
+        col_feedbacks.insert_one(my_dict)
+    except:
+        logger.error("Erreur lors de l'insertion du feedback dans la base de données.", exc_info=True)
+
     return render_template("feedback_ok.html", 
                            predicted_label = predicted_label, 
                            confidence = confidence,
@@ -254,6 +276,8 @@ def feedback_ok():
 
 
 dashboard.config.init_from(file=BASE_DIR + '\\config.cfg')
+
+# Pour relier le dashboard à cette app Flask
 dashboard.bind(app)
 
 
