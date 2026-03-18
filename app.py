@@ -86,6 +86,10 @@ MODEL_PATH = "models/final_cnn.keras"
 try:
     model = keras.saving.load_model(MODEL_PATH, compile=False)
     logger.info(f"Modele Keras charge depuis '{MODEL_PATH}'.")
+    # print('=' * 50)
+    # print("Model Layers:", model.layers)
+    # print("First layer get_config:", model.layers[0].get_config())
+    # print("Last layer get_config:", model.layers[2].get_config())
 except:
     logger.critical(f"Impossible de charger le modèle Keras depuis '{MODEL_PATH}'.")
 
