@@ -1,6 +1,6 @@
 # Projet : Résolution d'incident
 
-# 🛠️ Projet de Résolution d’Incidents Techniques – Application de Classification d’Images Satellite
+# Projet de Résolution d’Incidents Techniques – Application de Classification d’Images Satellite
 
 Ce projet consiste à diagnostiquer, corriger et améliorer une application existante de classification d’images satellite, tout en mettant en place des bonnes pratiques de **MLOps**, de **monitoring** et de **qualité logicielle**.
 
@@ -31,136 +31,55 @@ L’application repose sur :
 
 ---
 
-# 1. Résolution des incidents
+# 1. Résolution de l'incident
 
-## Diagnostic
-
-Analyse des problèmes existants :
-
-* Erreurs d’exécution
-* Problèmes de chargement du modèle
-* Mauvaise gestion des entrées utilisateur
-* Bugs liés au traitement des images
+* Reproduire le Bug
+* Comprendre le Bug (message d'erreur)
+* Correction du bug
 
 ---
 
-## Corrections apportées
+# 2. Mise en place de sécurité
 
-* Correction des erreurs de code
-* Amélioration de la gestion des exceptions
-* Validation des entrées utilisateur
-* Stabilisation du pipeline de prédiction
-
----
-
-## Documentation des incidents
-
-Chaque incident est documenté avec :
-
-* Description du problème
-* Cause racine
-* Solution appliquée
-* Impact
+* Mise en place d'un système de logging
+* Mise en place de tests unitaires (pour alerter en cas de régression)
+* Automatisation des tests via GitHub Action
+* Mise en place d'un système d'alerting
+* Mise en place d'un système de Monitoring
 
 ---
 
-# 2. Monitoring & Journalisation
-
-## Monitoring
-
-Mise en place d’indicateurs pour surveiller :
-
-* Temps de réponse de l’API
-* Taux d’erreur
-* Volume de requêtes
-
----
-
-## Logging
-
-Ajout d’un système de logs pour :
-
-* Suivre les requêtes utilisateurs
-* Identifier les erreurs
-* Tracer les prédictions du modèle
-
-Exemples :
-
-* Logs d’erreurs
-* Logs d’inférence
-* Logs système
-
----
-
-# 3. Tests unitaires
+# 3. Feedback Loop (MLOps)
 
 ## Objectif
 
-Automatiser la détection des anomalies.
-
-## Implémentation
-
-* Tests des endpoints Flask
-* Tests du pipeline de prédiction
-* Tests de validation des entrées
-
-## Bénéfices
-
-* Réduction des régressions
-* Détection rapide des bugs
-* Amélioration de la fiabilité
-
----
-
-# 4. Feedback Loop (MLOps)
-
-## Objectif
-
-Améliorer continuellement le modèle grâce aux données réelles.
+Amélioreation continue du modèle d'IA grâce aux feedback.
 
 ## Fonctionnement
 
-1. Collecte des prédictions
-2. Identification des erreurs ou cas limites
-3. Ajout de nouvelles données annotées
-4. Réentraînement du modèle
-5. Redéploiement
+1. Suite à une prédiction, on récupère le feedback utilisateur dans l'interface WEB
+2. Enregistrer le feedback en base de données (Donnée + annotation)
+3. Séparation des données (entraînement + test)
+3. Réentraînement du modèle avec les données augmentées
+4. Enregistrement du modèle 
 
 ---
 
 ## Pipeline MLOps
 
 ```id="ux1g0u"
-Données → Modèle → Prédictions → Feedback → Réentraînement → Déploiement
+Données → Prédiction → Feedback utilisateur → Enregistrement en base → Réentraînement
 ```
 
 ---
 
-# 5. Application Flask
-
-## Fonctionnalités
-
-* Upload d’images satellite
-* Prédiction de la classe
-* Affichage du résultat
-
----
-
-# Architecture
-
-```id="64v67z"
-Utilisateur → Flask API → Modèle ML → Prédiction → Logs & Monitoring
-```
-
----
-
-# Installation
+# Installation du projet
 
 ## 1. Cloner le projet
 
 ```bash id="1d6q0z"
-git clone <repo_url>
-cd <repo_name>
+git clone https://github.com/Franck-LF/livrable_BUG
+cd <votre_nom_de_dossier>
 ```
 
 ---
@@ -185,18 +104,10 @@ python app.py
 
 * Python
 * Flask
-* Bibliothèques de traitement d’image (PIL, OpenCV…)
-* Framework de tests (pytest ou unittest)
-* Logging (logging module)
-
----
-
-# Améliorations possibles
-
-* Intégration avec un outil de monitoring (Prometheus, Grafana)
-* Déploiement avec Docker
-* CI/CD pour automatiser les tests et le déploiement
-* Détection de drift du modèle
+* Traitement d’image (PIL, Numpy)
+* Pytest pour les tests
+* Logging
+* 
 
 ---
 
@@ -209,11 +120,6 @@ python app.py
 
 ---
 
-# Auteur
-
-Projet réalisé dans le cadre d’un travail sur la fiabilité des systèmes ML et les bonnes pratiques MLOps.
-
----
 
 
 
