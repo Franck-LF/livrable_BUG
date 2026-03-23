@@ -50,7 +50,7 @@ L’application repose sur :
 
 # 3. Feedback Loop (MLOps)
 
-<img src="https://github.com/Franck-LF/projectBlock1/blob/main/images/mlops.jpg" alt="Drawing" style="width: 500px;"/>
+<img src="https://github.com/Franck-LF/livrable_BUG/blob/main/images/mlops.jpg" alt="Drawing" style="width: 500px;"/>
 
 
 ## Objectif
