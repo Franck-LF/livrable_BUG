@@ -9,7 +9,6 @@ Ce projet consiste à diagnostiquer, corriger et améliorer une application exis
 # Objectifs
 
 * Identifier et corriger les dysfonctionnements de l’application
-* Garantir un fonctionnement stable et opérationnel
 * Mettre en place des outils de **monitoring** et de **journalisation**
 * Ajouter des **tests unitaires** pour détecter automatiquement les erreurs
 * Implémenter une **feedback loop** pour améliorer le modèle dans le temps
@@ -22,7 +21,7 @@ L’application repose sur :
 
 * Une API web développée avec **Flask**
 * Un modèle de classification d’images satellite
-* 4 classes :
+* 4 classes possibles à prédire par le modèle :
 
   * Desert
   * Forest
@@ -42,7 +41,7 @@ L’application repose sur :
 # 2. Mise en place de sécurité
 
 * Mise en place d'un système de logging
-* Mise en place de tests unitaires (pour alerter en cas de régression)
+* Mise en place de tests unitaires
 * Automatisation des tests via GitHub Action
 * Mise en place d'un système d'alerting
 * Mise en place d'un système de Monitoring
@@ -50,6 +49,9 @@ L’application repose sur :
 ---
 
 # 3. Feedback Loop (MLOps)
+
+<img src="https://github.com/Franck-LF/projectBlock1/blob/main/images/mlops.jpg" alt="Drawing" style="width: 500px;"/>
+
 
 ## Objectif
 
@@ -110,17 +112,6 @@ python app.py
 * 
 
 ---
-
-# Résultats
-
-* Application stabilisée
-* Meilleure observabilité
-* Détection proactive des incidents
-* Amélioration continue du modèle
-
----
-
-
 
 
 # Consignes du formateur :
