@@ -6,17 +6,17 @@ Ce projet consiste à diagnostiquer, corriger et améliorer une application exis
 
 ---
 
-# 🎯 Objectifs
+# Objectifs
 
-* 🔍 Identifier et corriger les dysfonctionnements de l’application
-* ✅ Garantir un fonctionnement stable et opérationnel
-* 📊 Mettre en place des outils de **monitoring** et de **journalisation**
-* 🧪 Ajouter des **tests unitaires** pour détecter automatiquement les erreurs
-* 🔁 Implémenter une **feedback loop** pour améliorer le modèle dans le temps
+* Identifier et corriger les dysfonctionnements de l’application
+* Garantir un fonctionnement stable et opérationnel
+* Mettre en place des outils de **monitoring** et de **journalisation**
+* Ajouter des **tests unitaires** pour détecter automatiquement les erreurs
+* Implémenter une **feedback loop** pour améliorer le modèle dans le temps
 
 ---
 
-# 🧠 Contexte
+# Contexte
 
 L’application repose sur :
 
@@ -24,16 +24,16 @@ L’application repose sur :
 * Un modèle de classification d’images satellite
 * 4 classes :
 
-  * 🌵 Desert
-  * 🌲 Forest
-  * 🌿 Meadow
-  * ⛰️ Mountain
+  * Desert
+  * Forest
+  * Meadow
+  * Mountain
 
 ---
 
-# 🚨 1. Résolution des incidents
+# 1. Résolution des incidents
 
-## 🔎 Diagnostic
+## Diagnostic
 
 Analyse des problèmes existants :
 
@@ -44,7 +44,7 @@ Analyse des problèmes existants :
 
 ---
 
-## 🛠️ Corrections apportées
+## Corrections apportées
 
 * Correction des erreurs de code
 * Amélioration de la gestion des exceptions
@@ -53,7 +53,7 @@ Analyse des problèmes existants :
 
 ---
 
-## 📄 Documentation des incidents
+## Documentation des incidents
 
 Chaque incident est documenté avec :
 
@@ -64,9 +64,9 @@ Chaque incident est documenté avec :
 
 ---
 
-# 📊 2. Monitoring & Journalisation
+# 2. Monitoring & Journalisation
 
-## 📈 Monitoring
+## Monitoring
 
 Mise en place d’indicateurs pour surveiller :
 
@@ -76,7 +76,7 @@ Mise en place d’indicateurs pour surveiller :
 
 ---
 
-## 📝 Logging
+## Logging
 
 Ajout d’un système de logs pour :
 
@@ -92,19 +92,19 @@ Exemples :
 
 ---
 
-# 🧪 3. Tests unitaires
+# 3. Tests unitaires
 
-## 🎯 Objectif
+## Objectif
 
 Automatiser la détection des anomalies.
 
-## 🔧 Implémentation
+## Implémentation
 
 * Tests des endpoints Flask
 * Tests du pipeline de prédiction
 * Tests de validation des entrées
 
-## ✅ Bénéfices
+## Bénéfices
 
 * Réduction des régressions
 * Détection rapide des bugs
@@ -112,13 +112,13 @@ Automatiser la détection des anomalies.
 
 ---
 
-# 🔁 4. Feedback Loop (MLOps)
+# 4. Feedback Loop (MLOps)
 
-## 🎯 Objectif
+## Objectif
 
 Améliorer continuellement le modèle grâce aux données réelles.
 
-## 🔄 Fonctionnement
+## Fonctionnement
 
 1. Collecte des prédictions
 2. Identification des erreurs ou cas limites
@@ -128,7 +128,7 @@ Améliorer continuellement le modèle grâce aux données réelles.
 
 ---
 
-## 📦 Pipeline MLOps
+## Pipeline MLOps
 
 ```id="ux1g0u"
 Données → Modèle → Prédictions → Feedback → Réentraînement → Déploiement
@@ -136,7 +136,7 @@ Données → Modèle → Prédictions → Feedback → Réentraînement → Dép
 
 ---
 
-# 🌐 5. Application Flask
+# 5. Application Flask
 
 ## Fonctionnalités
 
@@ -146,7 +146,7 @@ Données → Modèle → Prédictions → Feedback → Réentraînement → Dép
 
 ---
 
-# 🏗️ Architecture
+# Architecture
 
 ```id="64v67z"
 Utilisateur → Flask API → Modèle ML → Prédiction → Logs & Monitoring
@@ -154,7 +154,7 @@ Utilisateur → Flask API → Modèle ML → Prédiction → Logs & Monitoring
 
 ---
 
-# 🛠️ Installation
+# Installation
 
 ## 1. Cloner le projet
 
@@ -173,7 +173,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Lancer l’application
+## Lancer l’application
 
 ```bash id="8e8m6g"
 python app.py
@@ -181,7 +181,7 @@ python app.py
 
 ---
 
-# 📦 Technologies utilisées
+# Technologies utilisées
 
 * Python
 * Flask
@@ -191,7 +191,7 @@ python app.py
 
 ---
 
-# 🚀 Améliorations possibles
+# Améliorations possibles
 
 * Intégration avec un outil de monitoring (Prometheus, Grafana)
 * Déploiement avec Docker
@@ -200,7 +200,7 @@ python app.py
 
 ---
 
-# 📌 Résultats
+# Résultats
 
 * Application stabilisée
 * Meilleure observabilité
@@ -209,7 +209,7 @@ python app.py
 
 ---
 
-# 👨‍💻 Auteur
+# Auteur
 
 Projet réalisé dans le cadre d’un travail sur la fiabilité des systèmes ML et les bonnes pratiques MLOps.
 
